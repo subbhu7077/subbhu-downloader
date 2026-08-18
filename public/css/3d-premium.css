@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+/* ===== PREMIUM 3D TEXT SYSTEM ===== */
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Main headings */
+h1, h2, h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  letter-spacing: 1px;
+  transform-style: preserve-3d;
+  text-shadow:
+    0 2px 0 rgba(80,80,150,.9),
+    0 4px 0 rgba(45,45,100,.8),
+    0 7px 18px rgba(0,0,0,.8);
+  animation: premiumFloat 3.5s ease-in-out infinite;
+}
+
+/* Animated gradient heading */
+h1 {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #55eaff 20%,
+    #ffffff 40%,
+    #b76cff 60%,
+    #55eaff 80%,
+    #ffffff 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation:
+    textShimmer 5s linear infinite,
+    premiumFloat 3.5s ease-in-out infinite;
+}
+
+/* Normal website text */
+p, label {
+  font-family: 'Space Grotesk', sans-serif;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.15),
+    0 3px 8px rgba(0,0,0,.65);
+}
+
+/* Buttons and navigation */
+button, a {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  transform-style: preserve-3d;
+  transition:
+    transform .3s ease,
+    filter .3s ease,
+    text-shadow .3s ease;
+  text-shadow:
+    0 2px 0 rgba(30,30,70,.9),
+    0 4px 8px rgba(0,0,0,.7);
+}
+
+/* Button 3D movement */
+button:hover,
+a:hover {
+  transform:
+    perspective(600px)
+    translateY(-5px)
+    rotateX(5deg)
+    scale(1.03);
+
+  filter:
+    drop-shadow(0 8px 15px rgba(80,200,255,.45));
+}
+
+/* Social platform text */
+button,
+a,
+span {
+  text-rendering: geometricPrecision;
+}
+
+/* Animated glow */
+h1, h2, h3 {
+  animation-timing-function: ease-in-out;
+}
+
+/* Floating 3D effect */
+@keyframes premiumFloat {
+  0%, 100% {
+    transform:
+      perspective(800px)
+      rotateX(0deg)
+      rotateY(-1deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      perspective(800px)
+      rotateX(2deg)
+      rotateY(2deg)
+      translateY(-6px);
+  }
+}
+
+/* Moving light across text */
+@keyframes textShimmer {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 300% center;
+  }
+}
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+  h1, h2, h3 {
+    letter-spacing: .5px;
+    text-shadow:
+      0 2px 0 rgba(70,70,140,.9),
+      0 4px 10px rgba(0,0,0,.8);
+  }
+
+  button:hover,
+  a:hover {
+    transform:
+      perspective(500px)
+      translateY(-3px)
+      scale(1.02);
+  }
+}
+
+/* ===== SUBBHU SIGNATURE UI ===== */
+
+:root{
+  --subbhu-cyan:#00e5ff;
+  --subbhu-purple:#8b5cff;
+  --subbhu-pink:#ff35d6;
+}
+
+/* SUBBHU brand text */
+header h1,
+.logo,
+.brand,
+.nav-logo{
+  font-family:'Orbitron',sans-serif !important;
+  font-weight:900 !important;
+  letter-spacing:2px !important;
+  color:#fff !important;
+  text-shadow:
+    0 2px 0 #5c42a8,
+    0 4px 0 #30245f,
+    0 0 12px rgba(0,229,255,.45),
+    0 0 25px rgba(139,92,255,.35);
+  animation:subbhuBrand 3s ease-in-out infinite;
+}
+
+/* Main heading stronger 3D */
+.hero h1,
+.hero-title,
+main h1{
+  text-transform:none;
+  background:linear-gradient(
+    110deg,
+    #fff 0%,
+    #8eeeff 25%,
+    #fff 40%,
+    #b985ff 60%,
+    #fff 75%,
+    #6eeaff 100%
+  );
+  background-size:250% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 7px 0 rgba(60,35,120,.65))
+         drop-shadow(0 0 18px rgba(0,229,255,.18));
+  animation:
+    subbhuTitleLight 5s linear infinite,
+    subbhuTitleFloat 4s ease-in-out infinite;
+}
+
+/* All important buttons */
+button{
+  position:relative;
+  overflow:hidden;
+}
+
+/* moving light on buttons */
+button::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:55%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.35),
+    transparent
+  );
+  transform:skewX(-20deg);
+  animation:subbhuButtonLight 3.5s infinite;
+  pointer-events:none;
+}
+
+/* Download button */
+#downloadBtn,
+.download-btn,
+button[type="submit"]{
+  box-shadow:
+    0 8px 0 rgba(45,25,110,.7),
+    0 14px 30px rgba(0,0,0,.45),
+    0 0 25px rgba(120,80,255,.35);
+  animation:subbhuDownload 2.5s ease-in-out infinite;
+}
+
+/* Social buttons */
+.social-btn,
+.platform-btn,
+.platforms button{
+  transform-style:preserve-3d;
+  box-shadow:
+    0 5px 0 rgba(255,255,255,.04),
+    0 10px 20px rgba(0,0,0,.35);
+  transition:.3s ease;
+}
+
+.social-btn:hover,
+.platform-btn:hover,
+.platforms button:hover{
+  transform:
+    perspective(600px)
+    translateY(-7px)
+    rotateX(6deg)
+    rotateY(-4deg);
+}
+
+/* Glass cards */
+.card,
+.download-card,
+.input-card,
+.glass{
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 20px 45px rgba(0,0,0,.35),
+    0 0 30px rgba(100,70,255,.08);
+}
+
+/* SUBBHU floating animation */
+@keyframes subbhuBrand{
+  0%,100%{
+    transform:translateY(0) rotateX(0deg);
+  }
+  50%{
+    transform:translateY(-3px) rotateX(4deg);
+  }
+}
+
+@keyframes subbhuTitleFloat{
+  0%,100%{
+    transform:perspective(900px) rotateX(0deg) rotateY(-1deg) translateY(0);
+  }
+  50%{
+    transform:perspective(900px) rotateX(3deg) rotateY(2deg) translateY(-7px);
+  }
+}
+
+@keyframes subbhuTitleLight{
+  0%{background-position:0% center}
+  100%{background-position:250% center}
+}
+
+@keyframes subbhuButtonLight{
+  0%{left:-120%}
+  45%,100%{left:150%}
+}
+
+@keyframes subbhuDownload{
+  0%,100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-3px);
+    box-shadow:
+      0 9px 0 rgba(45,25,110,.7),
+      0 18px 35px rgba(0,0,0,.5),
+      0 0 35px rgba(0,229,255,.25);
+  }
+}
+
+/* Mobile */
+@media(max-width:600px){
+  header h1,
+  .logo,
+  .brand,
+  .nav-logo{
+    letter-spacing:1.5px !important;
+  }
+
+  .hero h1,
+  .hero-title,
+  main h1{
+    line-height:1.05;
+  }
+}
+

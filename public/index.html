@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUBBHU DOWNLOADER</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/3d-premium.css">
+<link rel="stylesheet" href="/3d-main.css"><script src="https://checkout.razorpay.com/v1/checkout.js"></script></head>
+
+<body>
+
+  <div class="background">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <span>⚡</span> SUBBHU
+    </div>
+    <button class="menu">☰</button>
+  </header>
+
+  <main>
+
+    <section class="hero">
+
+      <div class="badge">⚡ ALL SOCIAL DOWNLOADER</div>
+
+      <h1>
+        Download Social Media
+        <span>Videos Faster</span>
+      </h1>
+
+      <p class="subtitle">
+        TikTok, Instagram, Facebook, YouTube and more —
+        all in one powerful downloader.
+      </p>
+
+      <div class="download-card">
+
+        <div class="input-box">
+          <span>🔗</span>
+          <input
+            id="url"
+            type="url"
+            placeholder="Paste your video URL here..."
+          >
+          <button id="pasteBtn">Paste</button>
+        </div>
+
+        <button id="downloadBtn" class="download-btn">
+          <span>⚡</span>
+          DOWNLOAD
+        </button>
+
+        <div id="message"></div>
+
+        <div id="resultCard" class="result-card" hidden>
+          <div class="result-header">
+            <div class="result-icon">⚡</div>
+            <div>
+              <div id="resultPlatform">Platform</div>
+              <small>Public URL detected</small>
+            </div>
+          </div>
+
+          <div class="result-preview">
+            <div class="preview-icon">🎬</div>
+            <div>
+              <strong id="resultTitle">Ready to process</strong>
+              <p id="resultUrl"></p>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <button class="result-btn primary" id="videoBtn">
+              📥 Download Video
+            </button>
+
+            <button class="result-btn" id="audioBtn">
+              🎵 Audio
+            </button>
+          </div>
+
+          <button class="new-download" id="newDownload">
+            ↻ New Download
+          </button>
+        </div>
+
+      </div>
+
+      <div class="platforms">
+
+        <div class="platform">
+          <b>♪</b>
+          <span>TikTok</span>
+        </div>
+
+        <div class="platform">
+          <b>◎</b>
+          <span>Instagram</span>
+        </div>
+
+        <div class="platform">
+          <b>▶</b>
+          <span>YouTube</span>
+        </div>
+
+        <div class="platform">
+          <b>f</b>
+          <span>Facebook</span>
+        </div>
+
+        <div class="platform">
+          <b>𝕏</b>
+          <span>X</span>
+        </div>
+
+        <div class="platform">
+          <b>◆</b>
+          <span>Pinterest</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="features">
+
+      <div class="feature">
+        <div>🚀</div>
+        <h3>Fast Download</h3>
+        <p>Simple and fast download experience.</p>
+      </div>
+
+      <div class="feature">
+        <div>📱</div>
+        <h3>Mobile Friendly</h3>
+        <p>Designed specially for phone users.</p>
+      </div>
+
+      <div class="feature">
+        <div>✨</div>
+        <h3>Premium UI</h3>
+        <p>Modern 3D animated interface.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 SUBBHU DOWNLOADER
+  </footer>
+
+  <script src="/js/app.js"></script>
+
+</body>
+</html>
+<script src="/menu.js"></script>
+
+<script>
+async function openSubbhuPayment(amount, planName) {
+  try {
+    const response = await fetch('/api/payment/create-order', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        amount: amount,
+        plan: planName
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      alert(data.message || 'Payment order failed');
+      return;
+    }
+
+    const options = {
+      key: data.keyId,
+      amount: data.amount,
+      currency: data.currency || 'INR',
+      name: 'SUBBHU Downloader',
+      description: planName + ' Premium',
+      order_id: data.orderId,
+
+      handler: function (payment) {
+        alert('Payment successful! Payment ID: ' + payment.razorpay_payment_id);
+      },
+
+      theme: {
+        color: '#7c3cff'
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch (error) {
+    console.error(error);
+    alert('Payment system error');
+  }
+}
+</script>
+
+
+<style>
+#subbhu-premium {
+  margin: 45px auto;
+  padding: 25px 18px;
+  max-width: 900px;
+  text-align: center;
+}
+
+#subbhu-premium h2 {
+  font-size: 32px;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg,#8b5cff,#00d9ff,#ff3edb);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 900;
+}
+
+.premium-subtitle {
+  color: #aaa;
+  margin-bottom: 25px;
+}
+
+.premium-plans {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+}
+
+.premium-plan {
+  padding: 25px 15px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 22px;
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 30px rgba(120,60,255,.18);
+  transition: .3s;
+}
+
+.premium-plan:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+.premium-plan h3 {
+  font-size: 21px;
+  color: white;
+}
+
+.premium-price {
+  font-size: 32px;
+  font-weight: 900;
+  margin: 15px 0;
+  color: #fff;
+}
+
+.premium-plan p {
+  color: #aaa;
+  line-height: 1.7;
+}
+
+.premium-btn {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 14px;
+  color: white;
+  font-weight: 900;
+  font-size: 16px;
+  background: linear-gradient(90deg,#673cff,#00aaff,#d52cff);
+  cursor: pointer;
+}
+
+@media(max-width:600px){
+  .premium-plans {
+    grid-template-columns: 1fr;
+  }
+
+  #subbhu-premium h2 {
+    font-size: 27px;
+  }
+}
+</style>
+
+<section id="subbhu-premium">
+  <h2>⚡ SUBBHU PREMIUM</h2>
+  <p class="premium-subtitle">
+    Unlock premium downloading experience
+  </p>
+
+  <div class="premium-plans">
+
+    <div class="premium-plan">
+      <h3>7 DAYS</h3>
+      <div class="premium-price">₹19</div>
+      <p>✓ Premium access<br>✓ Fast downloads<br>✓ Ad-free experience</p>
+      <button class="premium-btn"
+        onclick="openSubbhuPayment(19,'7 Days')">
+        ⚡ GET PREMIUM
+      </button>
+    </div>
+
+    <div class="premium-plan">
+      <h3>30 DAYS</h3>
+      <div class="premium-price">₹49</div>
+      <p>✓ Premium access<br>✓ Fast downloads<br>✓ Ad-free experience</p>
+      <button class="premium-btn"
+        onclick="openSubbhuPayment(49,'30 Days')">
+        🚀 GET PREMIUM
+      </button>
+    </div>
+
+    <div class="premium-plan">
+      <h3>1 YEAR</h3>
+      <div class="premium-price">₹299</div>
+      <p>✓ Premium access<br>✓ Fast downloads<br>✓ Ad-free experience</p>
+      <button class="premium-btn"
+        onclick="openSubbhuPayment(299,'1 Year')">
+        👑 GET PREMIUM
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<script>
+async function openSubbhuPayment(amount, planName) {
+  try {
+    const response = await fetch('/api/payment/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        amount: amount,
+        plan: planName
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      alert(data.message || 'Unable to create payment');
+      return;
+    }
+
+    const options = {
+      key: data.keyId,
+      amount: data.amount,
+      currency: data.currency || 'INR',
+      name: 'SUBBHU Downloader',
+      description: planName + ' Premium',
+      order_id: data.orderId,
+
+      prefill: {
+        name: '',
+        email: '',
+        contact: ''
+      },
+
+      theme: {
+        color: '#7c3cff'
+      },
+
+      handler: async function(payment) {
+
+        const verify = await fetch('/api/payment/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            razorpay_order_id: payment.razorpay_order_id,
+            razorpay_payment_id: payment.razorpay_payment_id,
+            razorpay_signature: payment.razorpay_signature
+          })
+        });
+
+        const result = await verify.json();
+
+        if (result.success) {
+          alert('✅ Payment verified! ' + planName + ' Premium activated.');
+          localStorage.setItem('subbhuPremium', planName);
+        } else {
+          alert('❌ Payment verification failed.');
+        }
+      },
+
+      modal: {
+        ondismiss: function() {
+          console.log('Payment window closed');
+        }
+      }
+    };
+
+    const razorpayCheckout = new Razorpay(options);
+    razorpayCheckout.open();
+
+  } catch (error) {
+    console.error(error);
+    alert('Payment system error');
+  }
+}
+</script>
+

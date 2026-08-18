@@ -1,0 +1,268 @@
+/* ===== SUBBHU PREMIUM 3D MENU ===== */
+
+#subbhuMenuOverlay{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(110,60,255,.18),transparent 35%),
+    radial-gradient(circle at 80% 70%,rgba(0,220,255,.15),transparent 35%),
+    rgba(0,0,0,.68) !important;
+  backdrop-filter:blur(14px) saturate(140%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(140%) !important;
+}
+
+#subbhuMenu{
+  perspective:1000px !important;
+  overflow:hidden !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(65,35,130,.96),
+      rgba(8,15,35,.97) 48%,
+      rgba(0,80,110,.94)
+    ) !important;
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.75),
+    0 0 35px rgba(115,70,255,.28),
+    inset 0 1px 0 rgba(255,255,255,.18) !important;
+
+  transform-style:preserve-3d !important;
+}
+
+#subbhuMenu::before{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  top:-90px;
+  right:-70px;
+  border-radius:50%;
+  background:rgba(0,220,255,.25);
+  filter:blur(45px);
+  animation:subbhuOrb 4s ease-in-out infinite;
+  pointer-events:none;
+}
+
+#subbhuMenu::after{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  bottom:-80px;
+  left:-70px;
+  border-radius:50%;
+  background:rgba(125,50,255,.25);
+  filter:blur(45px);
+  animation:subbhuOrb2 5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes subbhuOrb{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(-35px,25px,30px) scale(1.25)}
+}
+
+@keyframes subbhuOrb2{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(30px,-20px,20px) scale(1.2)}
+}
+
+.subbhu-menu-title{
+  position:relative !important;
+  z-index:2 !important;
+  font-weight:900 !important;
+  letter-spacing:2px !important;
+  text-transform:uppercase !important;
+  text-shadow:
+    0 2px 0 rgba(255,255,255,.12),
+    0 0 15px rgba(100,170,255,.55) !important;
+}
+
+.subbhu-menu-title span{
+  animation:
+    subbhuTitleFloat 2.5s ease-in-out infinite,
+    subbhuTitleGlow 2s ease-in-out infinite !important;
+}
+
+@keyframes subbhuTitleFloat{
+  0%,100%{transform:translateY(0) rotateX(0)}
+  50%{transform:translateY(-3px) rotateX(8deg)}
+}
+
+@keyframes subbhuTitleGlow{
+  0%,100%{
+    text-shadow:0 0 7px rgba(100,80,255,.6);
+  }
+  50%{
+    text-shadow:
+      0 0 8px #7c4dff,
+      0 0 22px #00d9ff;
+  }
+}
+
+.subbhu-menu-item{
+  position:relative !important;
+  z-index:3 !important;
+  overflow:hidden !important;
+  border:1px solid rgba(255,255,255,.13) !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.10),
+      rgba(255,255,255,.025)
+    ) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 8px 18px rgba(0,0,0,.22) !important;
+
+  transform:translateZ(0) !important;
+  transition:
+    transform .22s cubic-bezier(.2,.8,.2,1),
+    box-shadow .22s ease,
+    border-color .22s ease,
+    background .22s ease !important;
+}
+
+.subbhu-menu-item::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:70%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.20),
+    transparent
+  );
+  transform:skewX(-20deg);
+  transition:left .55s ease;
+}
+
+.subbhu-menu-item:hover::before,
+.subbhu-menu-item:active::before{
+  left:140%;
+}
+
+.subbhu-menu-item:hover{
+  transform:
+    translate3d(-5px,-3px,18px)
+    rotateX(3deg)
+    rotateY(-2deg)
+    scale(1.025) !important;
+
+  border-color:rgba(0,210,255,.42) !important;
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.38),
+    0 0 22px rgba(0,190,255,.18),
+    inset 0 1px 0 rgba(255,255,255,.15) !important;
+}
+
+.subbhu-menu-item:active{
+  transform:
+    translate3d(0,2px,4px)
+    scale(.97) !important;
+}
+
+.subbhu-menu-icon{
+  position:relative !important;
+  overflow:hidden !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #704cff,
+      #168cff 50%,
+      #00d9ff
+    ) !important;
+
+  box-shadow:
+    0 5px 16px rgba(0,120,255,.28),
+    inset 0 1px 0 rgba(255,255,255,.35) !important;
+
+  transform:translateZ(15px) !important;
+  animation:subbhuIconFloat 2.5s ease-in-out infinite;
+}
+
+.subbhu-menu-item:nth-child(3) .subbhu-menu-icon{animation-delay:.15s}
+.subbhu-menu-item:nth-child(4) .subbhu-menu-icon{animation-delay:.30s}
+.subbhu-menu-item:nth-child(5) .subbhu-menu-icon{animation-delay:.45s}
+.subbhu-menu-item:nth-child(6) .subbhu-menu-icon{animation-delay:.60s}
+.subbhu-menu-item:nth-child(7) .subbhu-menu-icon{animation-delay:.75s}
+
+@keyframes subbhuIconFloat{
+  0%,100%{
+    transform:translateY(0) translateZ(15px) rotateY(0);
+  }
+  50%{
+    transform:translateY(-3px) translateZ(25px) rotateY(8deg);
+  }
+}
+
+/* ===== MENU BUTTON ===== */
+
+.menu{
+  transform-style:preserve-3d !important;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease !important;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.18) !important;
+}
+
+.menu:hover{
+  transform:
+    translateY(-3px)
+    rotateX(8deg)
+    rotateY(-8deg)
+    scale(1.05) !important;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.5),
+    0 0 25px rgba(90,130,255,.25) !important;
+}
+
+.menu:active{
+  transform:scale(.90) rotateX(0) rotateY(0) !important;
+}
+
+/* ===== PAGE 3D ===== */
+
+.subbhu-page-card{
+  transform-style:preserve-3d !important;
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.55),
+    0 0 35px rgba(90,70,255,.15),
+    inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+.subbhu-page-card h2{
+  text-shadow:
+    0 3px 0 rgba(0,0,0,.4),
+    0 0 20px rgba(0,210,255,.35) !important;
+}
+
+/* ===== MOBILE ===== */
+
+@media(max-width:600px){
+  #subbhuMenu{
+    top:72px !important;
+    right:10px !important;
+    width:calc(100vw - 20px) !important;
+  }
+
+  .subbhu-menu-item{
+    padding:14px !important;
+  }
+
+  .subbhu-menu-title{
+    font-size:17px !important;
+  }
+}

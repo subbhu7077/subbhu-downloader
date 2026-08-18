@@ -1,0 +1,331 @@
+require("dotenv").config();
+const Razorpay = require('razorpay');
+const razorpay = new Razorpay({key_id: process.env.RAZORPAY_KEY_ID,key_secret: process.env.RAZORPAY_KEY_SECRET});
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const fs = require("fs");
+const crypto = require("crypto");
+
+const {
+  resolveYouTube,
+  downloadYouTube
+} = require("./services/resolvers/youtube");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+const DOWNLOAD_DIR = "/sdcard/Download";
+
+// Make sure download folder exists
+if (!fs.existsSync(DOWNLOAD_DIR)) {
+  fs.mkdirSync(DOWNLOAD_DIR, { recursive: true });
+}
+
+app.use(cors());
+app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+// Public website
+app.use(express.static(path.join(__dirname, "public"))); app.get("/menu.js",(req,res)=>res.sendFile(path.join(__dirname,"public","menu.js")));
+
+// Health
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "SUBBHU DOWNLOADER is online",
+    port: PORT
+  });
+});
+
+// YouTube metadata
+app.post("/api/resolve", async (req, res) => {
+  try {
+    const { url } = req.body;
+
+    if (!url) {
+      return res.status(400).json({
+        success: false,
+        status: "error",
+        message: "Please enter a URL"
+      });
+    }
+
+    if (!/^https?:\/\//i.test(url)) {
+      return res.status(400).json({
+        success: false,
+        status: "error",
+        message: "Invalid URL"
+      });
+    }
+
+    const result = await resolveYouTube(url);
+
+    return res.json({
+      success: result.success,
+      platform: result.platform,
+      status: result.success ? "video" : "error",
+      type: result.type,
+      title: result.title || null,
+      thumbnail: result.thumbnail || null,
+      duration: result.duration || null,
+      uploader: result.uploader || null,
+      message: result.message,
+      url
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      status: "error",
+      message: error.message || "Server error"
+    });
+  }
+});
+
+// Download YouTube video
+app.post("/api/download", async (req, res) => {
+  try {
+    const { url } = req.body;
+
+    if (!url) {
+      return res.status(400).json({
+        success: false,
+        status: "error",
+        message: "Please enter a URL"
+      });
+    }
+
+    if (!/^https?:\/\//i.test(url)) {
+      return res.status(400).json({
+        success: false,
+        status: "error",
+        message: "Invalid URL"
+      });
+    }
+
+    console.log("");
+    console.log("⚡ SUBBHU DOWNLOAD");
+    console.log("🔗 URL:", url);
+
+    // Get metadata first
+    const info = await resolveYouTube(url);
+
+    if (!info.success) {
+      return res.status(400).json({
+        success: false,
+        status: "error",
+        message: info.message || "Unable to resolve YouTube video"
+      });
+    }
+
+    const safeName = (info.title || "SUBBHU_VIDEO")
+      .replace(/[<>:"/\\|?*\x00-\x1F]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 120);
+
+    const id = crypto.randomBytes(4).toString("hex");
+
+    const output = path.join(
+      DOWNLOAD_DIR,
+      `SUBBHU_${safeName}_${id}.%(ext)s`
+    );
+
+    console.log("📥 Downloading:", safeName);
+
+    await downloadYouTube(url, output);
+
+    // Find downloaded file
+    const files = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter(file =>
+        file.startsWith(`SUBBHU_${safeName}_${id}.`)
+      );
+
+    if (!files.length) {
+      throw new Error("Download completed but file was not found");
+    }
+
+    const filename = files[0];
+    const filepath = path.join(DOWNLOAD_DIR, filename);
+
+    console.log("✅ Download complete:", filepath);
+
+    return res.json({
+      success: true,
+      status: "completed",
+      platform: "YouTube",
+      type: "video",
+      title: info.title || safeName,
+      thumbnail: info.thumbnail || null,
+      duration: info.duration || null,
+      uploader: info.uploader || null,
+      filename,
+      filepath,
+      message: "Video downloaded successfully.",
+      downloadUrl: `/api/file/${encodeURIComponent(filename)}`
+    });
+
+  } catch (error) {
+    console.error("❌ DOWNLOAD ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      status: "error",
+      message: error.message || "Download failed"
+    });
+  }
+});
+
+// Send downloaded file to browser
+app.get("/api/file/:filename", (req, res) => {
+  try {
+    const filename = path.basename(
+      decodeURIComponent(req.params.filename)
+    );
+
+    const filepath = path.join(DOWNLOAD_DIR, filename);
+
+    if (!fs.existsSync(filepath)) {
+      return res.status(404).json({
+        success: false,
+        message: "File not found"
+      });
+    }
+
+    res.download(filepath, filename, error => {
+      if (error) {
+        console.error("File send error:", error);
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Unable to send file"
+    });
+  }
+});
+
+// Home
+app.use((req, res) => {
+  const index = path.join(__dirname, "public", "index.html");
+
+  if (fs.existsSync(index)) {
+    res.sendFile(index);
+  } else {
+    res.send("SUBBHU DOWNLOADER is running.");
+  }
+});
+
+// Start server
+
+app.post("/api/audio", async (req, res) => {
+  try {
+    const { url } = req.body;
+    if (!url) return res.status(400).json({success:false,message:"Please enter a URL"});
+
+    const { execFile } = require("child_process");
+    const { promisify } = require("util");
+    const exec = promisify(execFile);
+
+    await exec("python", [
+      "-m","yt_dl","--no-cache-dir","--no-playlist",
+      "-f","bestaudio",
+      "-o","/sdcard/Download/SUBBHU_AUDIO_%(id)s.%(ext)s",
+      url
+    ]);
+
+    res.json({success:true,type:"audio",message:"Audio downloaded successfully."});
+  } catch (error) {
+    res.status(500).json({success:false,message:error.message});
+  }
+});
+
+
+app.post("/api/payment/create-order", async (req,res) => {
+  try {
+    const amount = Number(req.body.amount);
+    if (!amount || amount < 1) {
+      return res.status(400).json({success:false,message:"Invalid amount"});
+    }
+
+    const order = await razorpay.orders.create({
+      amount: Math.round(amount * 100),
+      currency: "INR",
+      receipt: "subbhu_" + Date.now()
+    });
+
+    res.json({
+      success:true,
+      orderId:order.id,
+      amount:order.amount,
+      currency:order.currency,
+      keyId:process.env.RAZORPAY_KEY_ID
+    });
+  } catch(error) {
+    console.error(error);
+    res.status(500).json({success:false,message:"Payment order creation failed"});
+  }
+});
+
+
+// Razorpay payment verification
+app.post("/api/payment/verify", (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing payment verification data"
+      });
+    }
+
+    const generatedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(razorpay_order_id + "|" + razorpay_payment_id)
+      .digest("hex");
+
+    const valid =
+      generatedSignature.length === razorpay_signature.length &&
+      crypto.timingSafeEqual(
+        Buffer.from(generatedSignature),
+        Buffer.from(razorpay_signature)
+      );
+
+    if (!valid) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment verification failed"
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Payment verified successfully",
+      paymentId: razorpay_payment_id,
+      orderId: razorpay_order_id
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Verification error"
+    });
+  }
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("");
+  console.log("⚡ SUBBHU DOWNLOADER");
+  console.log("✅ Server running on port " + PORT);
+  console.log("🌐 http://localhost:" + PORT);
+  console.log("");
+});

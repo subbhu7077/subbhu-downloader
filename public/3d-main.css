@@ -1,0 +1,271 @@
+/* ===== SUBBHU 3D MAIN WEBSITE ===== */
+
+:root{
+  --subbhu-purple:#7c4dff;
+  --subbhu-blue:#00cfff;
+  --subbhu-pink:#d946ef;
+}
+
+/* Main headings */
+.hero h1,
+.hero-title,
+main h1{
+  text-shadow:
+    0 2px 0 #18152d,
+    0 4px 0 #29215a,
+    0 7px 0 rgba(0,0,0,.55),
+    0 0 18px rgba(124,77,255,.45) !important;
+
+  transform-style:preserve-3d;
+  animation:subbhuTextFloat 3s ease-in-out infinite;
+}
+
+/* Gradient text */
+.hero h1,
+.hero-title{
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff 0%,
+      #9bdcff 25%,
+      #ffffff 50%,
+      #c29cff 75%,
+      #ffffff 100%
+    ) !important;
+
+  background-size:250% auto !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+
+  animation:
+    subbhuTextFloat 3s ease-in-out infinite,
+    subbhuGradient 5s linear infinite !important;
+}
+
+@keyframes subbhuTextFloat{
+  0%,100%{
+    transform:translateY(0) rotateX(0) rotateY(0);
+  }
+  50%{
+    transform:translateY(-5px) rotateX(2deg) rotateY(-1deg);
+  }
+}
+
+@keyframes subbhuGradient{
+  0%{background-position:0% center}
+  100%{background-position:250% center}
+}
+
+/* Subtitle */
+.hero p,
+.hero-subtitle,
+main p{
+  text-shadow:
+    0 2px 3px rgba(0,0,0,.65),
+    0 0 12px rgba(255,255,255,.08) !important;
+}
+
+/* Badge */
+.badge,
+.hero .badge,
+[class*="badge"]{
+  transform-style:preserve-3d;
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.2) !important;
+
+  animation:subbhuBadge 3s ease-in-out infinite;
+}
+
+@keyframes subbhuBadge{
+  0%,100%{
+    transform:translateY(0) rotateX(0);
+  }
+  50%{
+    transform:translateY(-3px) rotateX(5deg);
+  }
+}
+
+/* Download card */
+.download-card,
+.download-box,
+.downloader,
+[class*="download"]{
+  transform-style:preserve-3d;
+}
+
+/* Download button */
+button{
+  transform-style:preserve-3d;
+}
+
+button:hover{
+  transform:translateY(-3px) scale(1.015);
+  filter:brightness(1.08);
+}
+
+button:active{
+  transform:translateY(2px) scale(.97);
+}
+
+/* Download button glow */
+.download-btn,
+#downloadBtn,
+button[type="submit"]{
+  position:relative;
+  overflow:hidden;
+
+  box-shadow:
+    0 8px 0 rgba(55,25,120,.65),
+    0 15px 35px rgba(80,50,255,.28),
+    inset 0 1px 0 rgba(255,255,255,.25) !important;
+
+  animation:subbhuDownloadPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes subbhuDownloadPulse{
+  0%,100%{
+    box-shadow:
+      0 8px 0 rgba(55,25,120,.65),
+      0 15px 35px rgba(80,50,255,.25);
+  }
+  50%{
+    box-shadow:
+      0 8px 0 rgba(55,25,120,.65),
+      0 15px 45px rgba(0,210,255,.38);
+  }
+}
+
+/* Moving shine */
+.download-btn::before,
+#downloadBtn::before,
+button[type="submit"]::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-130%;
+  width:55%;
+  height:100%;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.35),
+    transparent
+  );
+
+  transform:skewX(-20deg);
+  animation:subbhuShine 3.5s ease-in-out infinite;
+}
+
+@keyframes subbhuShine{
+  0%,45%{left:-130%}
+  65%,100%{left:150%}
+}
+
+/* Social platform buttons */
+.social-btn,
+.platform-btn,
+.platforms button,
+[class*="social"] button{
+  transform-style:preserve-3d;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease !important;
+}
+
+.social-btn:hover,
+.platform-btn:hover,
+.platforms button:hover{
+  transform:
+    translateY(-6px)
+    rotateX(5deg)
+    rotateY(-3deg)
+    scale(1.04) !important;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.45),
+    0 0 20px rgba(0,200,255,.15) !important;
+}
+
+.social-btn:active,
+.platform-btn:active,
+.platforms button:active{
+  transform:translateY(2px) scale(.95) !important;
+}
+
+/* Input */
+input{
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease !important;
+}
+
+input:focus{
+  transform:translateY(-2px) scale(1.01);
+  outline:none !important;
+
+  box-shadow:
+    0 0 0 2px rgba(100,90,255,.18),
+    0 10px 35px rgba(0,190,255,.12),
+    inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+/* Paste button */
+.paste-btn,
+button[class*="paste"]{
+  transition:.25s ease !important;
+}
+
+.paste-btn:hover,
+button[class*="paste"]:hover{
+  transform:translateY(-3px) rotateX(5deg) !important;
+}
+
+/* Header logo */
+.logo,
+.brand,
+.nav-logo{
+  transform-style:preserve-3d;
+  text-shadow:
+    0 2px 0 rgba(0,0,0,.5),
+    0 0 15px rgba(120,90,255,.4) !important;
+
+  animation:subbhuLogo 3s ease-in-out infinite;
+}
+
+@keyframes subbhuLogo{
+  0%,100%{
+    transform:translateY(0) rotateY(0);
+  }
+  50%{
+    transform:translateY(-2px) rotateY(-4deg);
+  }
+}
+
+/* Everything smoother */
+*{
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Mobile */
+@media(max-width:600px){
+
+  .hero h1,
+  .hero-title{
+    text-shadow:
+      0 2px 0 #211a45,
+      0 4px 0 rgba(0,0,0,.55),
+      0 0 14px rgba(124,77,255,.35) !important;
+  }
+
+  button:hover{
+    transform:none;
+  }
+
+  button:active{
+    transform:scale(.95);
+  }
+}

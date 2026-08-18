@@ -322,13 +322,10 @@ app.post("/api/payment/verify", (req, res) => {
   }
 });
 
-
-module.exports = app;
-
-if (require.main === module) {
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log("SUBBHU DOWNLOADER");
-    console.log("Server running on port " + PORT);
-    console.log("http://localhost:" + PORT);
-  });
-}
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("");
+  console.log("⚡ SUBBHU DOWNLOADER");
+  console.log("✅ Server running on port " + PORT);
+  console.log("🌐 http://localhost:" + PORT);
+  console.log("");
+});
